@@ -114,3 +114,7 @@ prompt_context() {
 
 source /opt/ros/kinetic/setup.zsh
 
+# run MATLAB 2019b on UBUNTU 16.04 without error
+export GTK_PATH=/usr/lib/x86_64-linux-gnu/gtk-2.0
+export LIBOVERLAY_SCROLLBAR=0
+export GIO_EXTRA_MODULES=/usr/lib/x86_64-linux-gnu/gio/modules
