@@ -65,3 +65,10 @@ sudo add-apt-repository ppa:gerardpuig/ppa
 ``` shell
 chown -R xihan /home/xihan/catkin_ws
 ```
+
+10. install sougou input method
+
+download official package from https://pinyin.sogou.com/linux/?r=pinyin
+``` shell
+sudo dpkg -i ~/Downloads/sogoupinyin*.deb; sudo apt -f install
+```
