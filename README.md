@@ -72,3 +72,5 @@ download official package from https://pinyin.sogou.com/linux/?r=pinyin
 ``` shell
 sudo dpkg -i ~/Downloads/sogoupinyin*.deb; sudo apt -f install
 ```
+
+### test
