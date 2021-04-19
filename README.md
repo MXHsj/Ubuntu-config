@@ -61,14 +61,18 @@ plugins=(zsh-autosuggestions)
 sudo add-apt-repository ppa:gerardpuig/ppa
 ```
 
-9. if install ros with root:
-``` shell
-chown -R xihan /home/xihan/catkin_ws
-```
+9. install Node.js
+[sourcenode]https://github.com/nodesource/distributions
+
 
 10. install sougou input method
 
 download official package from https://pinyin.sogou.com/linux/?r=pinyin
 ``` shell
 sudo dpkg -i ~/Downloads/sogoupinyin*.deb; sudo apt -f install
+```
+
+11. if install ros with root:
+``` shell
+chown -R xihan /home/xihan/catkin_ws
 ```
