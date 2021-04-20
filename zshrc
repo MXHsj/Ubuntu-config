@@ -9,7 +9,10 @@ export ZSH="/home/xihan/.oh-my-zsh"
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="agnoster"
+
+# ZSH_THEME="agnoster"
+ZSH_THEME="robbyrussell"
+# ZSH_THEME="awesomepanda"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -98,12 +101,12 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-alias s="sensors"
+# alias s="sensors"
 alias c="clear"
 alias r="ranger"
 alias f="neofetch"
-alias t="tlp-stat -t"			# chech cpu temperature
-alias p="sudo tlp-stat -p"		# check cpu status
+# alias t="tlp-stat -t"			# chech cpu temperature
+# alias p="sudo tlp-stat -p"		# check cpu status
 
 prompt_context() {
   # Custom (Random emoji)
@@ -112,9 +115,25 @@ prompt_context() {
   prompt_segment black default "${emojis[$RAND_EMOJI_N]} "
 }
 
-source /opt/ros/kinetic/setup.zsh
+# ROS
+source /opt/ros/melodic/setup.zsh
+source ~/catkin_ws/devel/setup.zsh
+export PATH=$PATH:/usr/lib/python2.7/dist-packages
+ip=$(hostname -I | awk '{print $1}')
+export ROS_IP=$ip
 
-# run MATLAB 2019b on UBUNTU 16.04 without error
-export GTK_PATH=/usr/lib/x86_64-linux-gnu/gtk-2.0
-export LIBOVERLAY_SCROLLBAR=0
-export GIO_EXTRA_MODULES=/usr/lib/x86_64-linux-gnu/gio/modules
+
+# DensePose
+# export PATH=~/anaconda2/bin:$PATH
+# export CC=/home/xihan/anaconda2/bin/gcc-4.9
+# export CXX=/home/xihan/anaconda2/bin/g++-4.9
+
+# CUDA & CUDNN
+export PATH=$PATH:/usr/local/cuda-11.0/bin
+export CUDADIR=/usr/local/cuda-11.0
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/cuda-11.0/lib64
+
+# Jekyll
+# Install Ruby Gems to ~/gems
+export GEM_HOME="$HOME/gems"
+export PATH="$HOME/gems/bin:$PATH"
