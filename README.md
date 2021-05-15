@@ -43,6 +43,7 @@ https://github.com/drNoob13/batteryimprove/blob/5da50a4307c87e011bdc2484be5b5ada
 ``` shell
 sudo apt-get install zsh
 chsh -s $(which zsh)
+sudo apt install curl wget git
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 ```
 install fonts
