@@ -132,8 +132,3 @@ export ROS_IP=$ip
 export PATH=$PATH:/usr/local/cuda-11.0/bin
 export CUDADIR=/usr/local/cuda-11.0
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/cuda-11.0/lib64
-
-# Jekyll
-# Install Ruby Gems to ~/gems
-export GEM_HOME="$HOME/gems"
-export PATH="$HOME/gems/bin:$PATH"
