@@ -77,3 +77,11 @@ sudo dpkg -i ~/Downloads/sogoupinyin*.deb; sudo apt -f install
 ``` shell
 chown -R xihan /home/xihan/catkin_ws
 ```
+
+12. restore grub loader after win10 update
+```
+sudo add-apt-repository ppa:yannubuntu/boot-repair
+sudo apt-get update
+sudo apt-get install -y boot-repair && boot-repair
+boot-repair
+```
