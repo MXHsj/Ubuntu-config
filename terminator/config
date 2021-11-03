@@ -1,0 +1,27 @@
+[lobal_config]
+  dbus = False
+  handle_size = 4
+  inactive_color_offset = 0.807692307692
+  scroll_tabbar = True
+  sticky = True
+  suppress_multiple_term_dialog = True
+[keybindings]
+  line_down = None
+[layouts]
+  [[default]]
+    [[[child1]]]
+      parent = window0
+      type = Terminal
+    [[[window0]]]
+      parent = ""
+      type = Window
+[plugins]
+[profiles]
+  [[default]]
+    background_color = "#2e3436"
+    cursor_color = "#aaaaaa"
+    font = Monaco 12
+    foreground_color = "#d3d7cf"
+    scrollbar_position = hidden
+    show_titlebar = False
+    use_system_font = False
