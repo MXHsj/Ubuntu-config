@@ -85,3 +85,8 @@ sudo apt-get update
 sudo apt-get install -y boot-repair && boot-repair
 boot-repair
 ```
+
+13. auto install drivers
+```
+sudo ubuntu-drivers autoinstall
+```
