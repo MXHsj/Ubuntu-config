@@ -1,92 +1,158 @@
-## ubuntu config notes for stumpjumper
+# ubuntu config notes 18.04 / 20.04
 
-1.  view application 
+## content
+- monaco.ttf          ==> font for terminator & vscode
+- terminator/config  ==> configuation file for terminator, copy to ~/.config/terminator/config
+- strider.png         ==> desktop background
+- vimrc ==> configuration file for vim, copy to ~/.vimrc
+- zshrc ==> configuration file for zsh shell, copy to ~/.zshrc
+- molokai.vim ==> theme for vim
 
-``` shell
-dpkg --get-selections | grep [app name]
-```
+## drivers
+- auto install drivers
+  ```
+  sudo ubuntu-drivers autoinstall
+  ```
 
-2. update gazebo
+- manual install nvidia driver
+  ``` shell
+  sudo add-apt-repository ppa:graphics-drivers/ppa
+  sudo apt-get install nvidia-driver-[distro]
+  ```
 
-``` shell
-gazebo -v 
-sudo sh -c 'echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-stable `lsb_release -cs` main" > /etc/apt/sources.list.d/gazebo-stable.list'
-wget http://packages.osrfoundation.org/gazebo.key -O - | sudo apt-key add -
-sudo apt-get update
-sudo apt-get install gazebo[distro]
-```
+## shell
+- **zsh** & **oh-my-zsh** & add 
+  ``` shell
+  sudo apt-get install zsh
+  chsh -s $(which zsh)
+  sudo apt install curl wget git
+  sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+  ```
 
-4. download neofetch
-``` shell
-sudo apt-add-repository ppa:dawidd0811/neofetch
-sudo apt-get install neofetch
-```
+- **powerline font** 
+  ``` shell
+  sudo apt-get install fonts-powerline
+  ```
 
-5. install nvidia driver
-``` shell
-sudo add-apt-repository ppa:graphics-drivers/ppa
-sudo apt-get install nvidia-driver-[distro]
-```
+- **autoseggestion** oh-my-zsh plugin
+  ``` shell
+  git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+  ```
+  in .zshrc
+  ``` shell
+  plugins=(zsh-autosuggestions)
+  ```
 
-6. install TLP cpu power manager
-``` shell
-sudo add-apt-repository ppa:linrunner/tlp
-sudo apt-get update
-```
-tlp webpage:
-https://linrunner.de/en/tlp/docs/tlp-linux-advanced-power-management.html
+## develop environment
+- **Node.js**
 
-tlp settings:
-https://github.com/drNoob13/batteryimprove/blob/5da50a4307c87e011bdc2484be5b5ada0b8b0f41/tlp#L76
+  [sourcenode]https://github.com/nodesource/distributions
 
-7. setup zsh oh my zsh & add powerline font
-``` shell
-sudo apt-get install zsh
-chsh -s $(which zsh)
-sudo apt install curl wget git
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-```
-install fonts
-``` shell
-sudo apt-get install fonts-powerline
-```
-install autoseggestion
-``` shell
-git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+- **CUDA**
+  
+  intall CUDA from NVIDIA [webpage](https://developer.nvidia.com/cuda-downloads?target_os=Linux&target_arch=x86_64&Distribution=Ubuntu&target_version=20.04&target_type=deb_local)
 
-plugins=(zsh-autosuggestions)
-```
+  after installation, cuda is located under ```/usr/local/```
+    ``` shell
+    source ~/.zshrc
+    nvcc -V
+    ```
 
-8. ubuntu cleaner repository:
-``` shell
-sudo add-apt-repository ppa:gerardpuig/ppa
-```
+- **cuDNN**
 
-9. install Node.js
-[sourcenode]https://github.com/nodesource/distributions
+  NVIDIA installation [guide](https://docs.nvidia.com/deeplearning/cudnn/install-guide/index.html)
+  
+  download cuDNN Runtime library, developer library, code samples .deb
+  ``` shell
+  sudo dpkg -i ~/Downloads/*.deb
+  ```
+
+  cuDNN headers are located at ```/usr/include/cudnn*.h```
+
+  trouble shooting: could not find cudnn version when building densepose:
+  ``` shell
+  ~/anaconda2/lib/python2.7/site-packages/torch/share/cmake/Caffe2/public/cuda.make 
+  ```
+  line 137: change ```cudnn.h``` to ```cudnn_version.h```
 
 
-10. install sougou input method
+## utility software
+- **neofetch**
+  ``` shell
+  sudo apt-add-repository ppa:dawidd0811/neofetch
+  sudo apt-get install neofetch
+  ```
 
-download official package from https://pinyin.sogou.com/linux/?r=pinyin
-``` shell
-sudo dpkg -i ~/Downloads/sogoupinyin*.deb; sudo apt -f install
-```
+- **TLP** cpu power manager
+  ``` shell
+  sudo add-apt-repository ppa:linrunner/tlp
+  sudo apt-get update
+  ```
+  [tlp webpage](https://linrunner.de/en/tlp/docs/tlp-linux-advanced-power-management.html)
+  [tlp settings](https://github.com/drNoob13/batteryimprove/blob/5da50a4307c87e011bdc2484be5b5ada0b8b0f41/tlp#L76)
 
-11. if install ros with root:
-``` shell
-chown -R xihan /home/xihan/catkin_ws
-```
+- **ubuntu-cleaner**:
+  ``` shell
+  sudo add-apt-repository ppa:gerardpuig/ppa
+  sudo apt install ubuntu-cleaner
+  ```
 
-12. restore grub loader after win10 update
-```
-sudo add-apt-repository ppa:yannubuntu/boot-repair
-sudo apt-get update
-sudo apt-get install -y boot-repair && boot-repair
-boot-repair
-```
+- **grub-customizer**
+  ```
+  sudo apt install grub-customizer
+  ```
 
-13. auto install drivers
-```
-sudo ubuntu-drivers autoinstall
-```
+- **sougou**
+  
+  download official [package](https://pinyin.sogou.com/linux/?r=pinyin) 
+  ``` shell
+  sudo dpkg -i ~/Downloads/sogoupinyin*.deb; sudo apt -f install
+  ```
+
+
+## trouble-shooting
+- view application 
+  ``` shell
+  dpkg --get-selections | grep [app name]
+  ```
+
+- update gazebo
+  ``` shell
+  gazebo -v 
+  sudo sh -c 'echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-stable `lsb_release -cs` main" > /etc/apt/sources.list.d/gazebo-stable.list'
+  wget http://packages.osrfoundation.org/gazebo.key -O - | sudo apt-key add -
+  sudo apt-get update
+  sudo apt-get install gazebo[distro]
+  ```
+
+- if install ros with root:
+  ``` shell
+  chown -R xihan /home/xihan/catkin_ws
+  ```
+
+- restore grub loader after win10 update
+  ```
+  sudo add-apt-repository ppa:yannubuntu/boot-repair
+  sudo apt-get update
+  sudo apt-get install -y boot-repair && boot-repair
+  boot-repair
+  ```
+
+- view command line history
+  ``` shell
+  history
+  ```
+
+- "system program problem detected"
+  ``` shell
+  cd /var/crash
+  ls
+  sudo rm /var/crash/*
+  ```
+
+- boot into console mode
+
+- manage drivers
+  
+  xserver-xorg-XXX
+
