@@ -150,6 +150,11 @@
   sudo rm /var/crash/*
   ```
 
+- matlab ./install freeze
+  ``` shell
+  xhost +SI:localuser:root
+  ```
+
 - boot into console mode
 
 - manage drivers
