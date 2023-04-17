@@ -116,19 +116,14 @@ prompt_context() {
 }
 
 # ROS
-source /opt/ros/melodic/setup.zsh
+# export PATH=$PATH:/usr/lib/python2.7/dist-packages
+source /opt/ros/noetic/setup.zsh
 source ~/catkin_ws/devel/setup.zsh
-export PATH=$PATH:/usr/lib/python2.7/dist-packages
-ip=$(hostname -I | awk '{print $1}')
+ip=$(hostname -I | awk '{print $NF}')
 export ROS_IP=$ip
-
-
-# DensePose
-# export PATH=~/anaconda2/bin:$PATH
-# export CC=/home/xihan/anaconda2/bin/gcc-4.9
-# export CXX=/home/xihan/anaconda2/bin/g++-4.9
+export ROS_MASTER_URI=http://$ip:11311
 
 # CUDA & CUDNN
-export PATH=$PATH:/usr/local/cuda-11.0/bin
-export CUDADIR=/usr/local/cuda-11.0
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/cuda-11.0/lib64
+export PATH=$PATH:/usr/local/cuda-11/bin
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/cuda-11/lib64
+export CUDADIR=/usr/local/cuda-11
