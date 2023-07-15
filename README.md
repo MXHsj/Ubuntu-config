@@ -1,4 +1,4 @@
-# ubuntu config notes 18.04 / 20.04
+# ubuntu config notes 20.04
 
 ## content
 - monaco.ttf          ==> font for terminator & vscode
@@ -138,9 +138,40 @@
   boot-repair
   ```
 
-- view command line history
+- compile upstream linux kernel
+  1. download kernel files from https://www.kernel.org/pub/linux/kernel, for example
   ``` shell
-  history
+  curl -SLO https://www.kernel.org/pub/linux/kernel/v5.x/linux-5.19.1.tar.xz
+  curl -SLO https://www.kernel.org/pub/linux/kernel/v5.x/linux-5.19.1.tar.sign
+  ```
+  decompress:
+  ``` shell
+  xz -d *.xz
+  ```
+  2. verify file integrity
+  ``` shell
+  gpg2 --verify linux-*.tar.sign
+  gpg2 --verify patch-*.patch.sign
+  ```
+  in case of missing public key:
+  ``` shell
+  gpg2  --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys $(missed public key)
+  ```
+  3. customize kernel configuration (important step!!!)
+  ``` shell
+  tar xf linux-*.tar
+  cd linux-*/
+  patch -p1 < ../patch-*.patch
+  cp -v /boot/config-$(uname -r) .config
+  make olddefconfig
+  make menuconfig
+  ```
+  Navigate to Cryptographic API > Certificates for signature checking > Provide system-wide ring of trusted keys > Additional X.509 keys for default system keyring
+  Remove “debian/canonical-certs.pem” and “debian/canonical-revoked-certs.pem”
+  4. compile and installation
+  ```
+  make -j$(nproc) deb-pkg
+  sudo dpkg -i ../linux-headers-*.deb ../linux-image-*.deb
   ```
 
 - "system program problem detected"
@@ -154,10 +185,4 @@
   ``` shell
   xhost +SI:localuser:root
   ```
-
-- boot into console mode
-
-- manage drivers
-  
-  xserver-xorg-XXX
 
