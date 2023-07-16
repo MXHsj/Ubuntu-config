@@ -111,12 +111,12 @@
 
 
 ## trouble-shooting
-- view application 
+### view application 
   ``` shell
   dpkg --get-selections | grep [app name]
   ```
 
-- update gazebo
+### update gazebo
   ``` shell
   gazebo -v 
   sudo sh -c 'echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-stable `lsb_release -cs` main" > /etc/apt/sources.list.d/gazebo-stable.list'
@@ -138,51 +138,72 @@
   boot-repair
   ```
 
-- compile upstream linux kernel
-  1. download kernel files from https://www.kernel.org/pub/linux/kernel, for example
-    ``` shell
-    curl -SLO https://www.kernel.org/pub/linux/kernel/v5.x/linux-5.19.1.tar.xz
-    curl -SLO https://www.kernel.org/pub/linux/kernel/v5.x/linux-5.19.1.tar.sign
-    ```
-    decompress:
-    ``` shell
-    xz -d *.xz
-    ```
-    2. verify file integrity
-    ``` shell
-    gpg2 --verify linux-*.tar.sign
-    gpg2 --verify patch-*.patch.sign
-    ```
-    in case of missing public key:
-    ``` shell
-    gpg2  --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys $(missed public key)
-    ```
-  3. customize kernel configuration (important step!!!)
-    ``` shell
-    tar xf linux-*.tar
-    cd linux-*/
-    patch -p1 < ../patch-*.patch
-    cp -v /boot/config-$(uname -r) .config
-    make olddefconfig
-    make menuconfig
-    ```
-    Navigate to Cryptographic API > Certificates for signature checking > Provide system-wide ring of trusted keys > Additional X.509 keys for default system keyring
-    Remove “debian/canonical-certs.pem” and “debian/canonical-revoked-certs.pem”
-  4. compile and installation
-    ```
-    make -j$(nproc) deb-pkg
-    sudo dpkg -i ../linux-headers-*.deb ../linux-image-*.deb
-    ```
+### install upstream linux kernel from source
+  
+**step1.** download kernel files 
 
-- "system program problem detected"
-  ``` shell
-  cd /var/crash
-  ls
-  sudo rm /var/crash/*
-  ```
+download from https://www.kernel.org/pub/linux/kernel, for example
+``` shell
+curl -SLO https://www.kernel.org/pub/linux/kernel/v5.x/linux-5.19.1.tar.xz
+curl -SLO https://www.kernel.org/pub/linux/kernel/v5.x/linux-5.19.1.tar.sign
+```
+decompress:
+``` shell
+xz -d *.xz
+```
 
-- matlab ./install freeze
-  ``` shell
-  xhost +SI:localuser:root
-  ```
+**step2.** verify file integrity
+``` shell
+gpg2 --verify linux-*.tar.sign
+gpg2 --verify patch-*.patch.sign
+```
+in case of missing public key:
+``` shell
+gpg2  --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys $(missed public key)
+```
+
+**step3** customize kernel configuration (important step!!!)
+``` shell
+tar xf linux-*.tar
+cd linux-*/
+patch -p1 < ../patch-*.patch
+cp -v /boot/config-$(uname -r) .config
+make olddefconfig
+make menuconfig
+```
+Navigate to Cryptographic API > Certificates for signature checking > Provide system-wide ring of trusted keys > Additional X.509 keys for default system keyring
+Remove “debian/canonical-certs.pem” and “debian/canonical-revoked-certs.pem”
+
+**step4.** compile and installation
+``` shell
+make -j$(nproc) deb-pkg
+sudo dpkg -i ../linux-headers-*.deb ../linux-image-*.deb
+```
+
+### intel iwlwifi driver issue
+``` shell
+git clone https://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/backport-iwlwifi.git
+cd backport-iwlwifi
+make defconfig-iwlwifi-public
+sed -i 's/CPTCFG_IWLMVM_VENDOR_CMDS=y/# CPTCFG_IWLMVM_VENDOR_CMDS is not set/' .config
+make -j4
+sudo make install
+```
+
+### fix Nvidia driver modules
+``` shell
+sudo dpkg-reconfigure nvidia-dkms-525
+```
+
+### "system program problem detected"
+``` shell
+cd /var/crash
+ls
+sudo rm /var/crash/*
+```
+
+### matlab ./install freeze
+``` shell
+xhost +SI:localuser:root
+```
 
