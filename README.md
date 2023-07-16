@@ -1,4 +1,4 @@
-# ubuntu config notes 20.04
+# ubuntu config notes (20.04)
 
 ## content
 - monaco.ttf          ==> font for terminator & vscode
@@ -191,6 +191,7 @@ sudo make install
 ```
 
 ### fix Nvidia driver modules
+(reference) [https://askubuntu.com/questions/1410353/iwlwifi-backports-build-is-rejected-for-lts-20-04-during-update-of-all-kernel-5]
 ``` shell
 sudo dpkg-reconfigure nvidia-dkms-525
 ```
